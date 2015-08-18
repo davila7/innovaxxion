@@ -12,10 +12,19 @@
 */
 
 Route::get('/', 'WelcomeController@index');
-
 Route::get('home', 'HomeController@index');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+//perfiles
+Route::group(['prefix' => 'perfiles'], function(){
+
+	Route::get('/', 'PerfilesController@ListaPerfiles');
+	Route::get('/create', 'PerfilesController@CrudPerfiles');
+	Route::any('/edit', 'PerfilesController@CrudPerfiles');
+
+});
+

@@ -137,6 +137,12 @@ return [
 		'Illuminate\View\ViewServiceProvider',
 
 		/*
+		 * External modules
+		 */
+		'Zofe\Rapyd\RapydServiceProvider',
+		'Zizaco\Entrust\EntrustServiceProvider',
+
+		/*
 		 * Application Service Providers...
 		 */
 		'App\Providers\AppServiceProvider',
@@ -192,6 +198,12 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+
+		/*
+		 * External modules
+		 */
+		
+		'Entrust' => 'Zizaco\Entrust\EntrustFacade',
 
 	],
 
