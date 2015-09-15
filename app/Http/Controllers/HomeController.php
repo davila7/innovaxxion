@@ -1,5 +1,10 @@
 <?php namespace App\Http\Controllers;
 
+use App\Models\Profiles;
+use App\Models\Travels;
+use App\Models\OverallCost;
+use App\Models\Etapas;
+
 class HomeController extends Controller {
 
 	/*
@@ -29,8 +34,15 @@ class HomeController extends Controller {
 	 * @return Response
 	 */
 	public function index()
-	{
-		return view('home');
+	{	
+		$count_profiles = Profiles::count();
+		$count_travels = Travels::count();
+		$count_overallcost = OverallCost::count();
+		$count_etapas = Etapas::count();
+		return view('home')->with('count_profiles', $count_profiles)
+							->with('count_travels', $count_travels)
+							->with('count_etapas', $count_etapas)
+							->with('count_overallcost', $count_overallcost);
 	}
 
 }

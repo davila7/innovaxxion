@@ -13,24 +13,24 @@ class CreatePerfilesTable extends Migration {
 	public function up()
 	{
 
-		Schema::create('categorias', function(Blueprint $table)
+		Schema::create('categories', function(Blueprint $table)
 		{
 			$table->engine = 'MyISAM';
 			$table->increments('id');
-			$table->string('nombre');
+			$table->string('name');
 		});
 
-		Schema::create('perfiles', function(Blueprint $table)
+		Schema::create('profiles', function(Blueprint $table)
 		{
 			$table->engine = 'MyISAM';
 			$table->increments('id');
-			$table->string('nombre');
-			$table->string('codigo');
-			$table->integer('consto_mensual');
-			$table->double('costo_hr_uf');
-			$table->integer('categoria_id');
+			$table->string('name');
+			$table->string('code');
+			$table->integer('monthly_cost');
+			$table->double('hours_cost_uf');
+			$table->integer('categories_id');
 
-			$table->foreign('categoria_id')->references('id')->on('categorias')
+			$table->foreign('categories_id')->references('id')->on('categories')
                 ->onUpdate('cascade')->onDelete('cascade');
 		});
 	}
@@ -42,8 +42,8 @@ class CreatePerfilesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('perfiles');
-		Schema::drop('categorias');
+		Schema::drop('profiles');
+		Schema::drop('categories');
 	}
 
 }
