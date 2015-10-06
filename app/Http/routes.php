@@ -31,7 +31,6 @@ Route::group(['prefix' => 'perfiles'], function(){
 
 });
 
-
 //viajes
 Route::group(['prefix' => 'travels'], function(){
 
@@ -67,3 +66,31 @@ Route::group(['prefix' => 'etapas'], function(){
 	Route::any('/edit', 'EtapasController@CrudEtapas');
 
 });
+
+//etapas-evaluations
+Route::group(['prefix' => 'etapas-evaluations/{id}'], function(){
+
+	Route::get('/', 'EvaluationsController@ListaEtapasEvaluations');
+	Route::any('/create', 'EvaluationsController@CrudEtapasEvaluations');
+	Route::any('/edit', 'EvaluationsController@CrudEtapasEvaluations');
+
+});
+
+//activity-etapas
+Route::group(['prefix' => 'activity-etapas/{id_evaluation}/{id_etapa_evaluation}'], function(){
+
+	Route::get('/', 'EvaluationsController@ListaActivityEtapas');
+	Route::any('/create', 'EvaluationsController@CrudActivityEtapas');
+	Route::any('/edit', 'EvaluationsController@CrudActivityEtapas');
+
+});
+
+//activity-profiles
+Route::group(['prefix' => 'activity-profiles/{id_activity}'], function(){
+
+	Route::get('/', 'EvaluationsController@ListaProfilesActivity');
+	Route::any('/create', 'EvaluationsController@CrudProfilesActivity');
+	Route::any('/edit', 'EvaluationsController@CrudProfilesActivity');
+
+});
+

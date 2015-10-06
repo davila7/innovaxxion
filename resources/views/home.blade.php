@@ -39,7 +39,7 @@
 		<div class="col-md-3">
       <a href="{{ url('/etapas') }}"><div class="info-box">
         <!-- Apply any bg-* class to to the icon to color it -->
-        <span class="info-box-icon bg-red"><i class="fa fa-money"></i></span>
+        <span class="info-box-icon bg-red"><i class="fa fa-check-square-o"></i></span>
         <div class="info-box-content">
           <span class="info-box-text">Etapas</span>
           <span class="info-box-number">{!! $count_etapas !!}</span>
