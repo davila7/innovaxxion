@@ -149,7 +149,7 @@ class EvaluationsController extends Controller {
     public function ListaProfilesActivity($id_activity)
 	{	
 		$activity = Activity::find($id_activity);
-		$filter = DataFilter::source(ActivityProfiles::where('id_activity', $id_activity));
+		$filter = DataFilter::source(ActivityProfiles::with('profile')->where('id_activity', $id_activity));
 		/*Header*/
         $filter->link('activity-profiles/'.$id_activity.'/create', 'Crear Nuevo', 'TR');
         /*Header*/
@@ -161,19 +161,18 @@ class EvaluationsController extends Controller {
 
 		$grid = DataGrid::source($filter);
         $grid->attributes(array("class"=>"table table-striped"));
-        $grid->add('id_activity','Activity', true);
-        $grid->add('id_profile','Profile', true);
+        $grid->add('{{ $profile->name }}','Profile', 'id_profile');
         $grid->edit(url().'/activity-profiles/'.$id_activity.'/edit', 'Editar/Borrar','modify|delete');        
         $grid->paginate(10);
 
-		return view('evaluations/activity/profiles/lista', compact('filter', 'grid', 'id_evaluation', 'evaluation', 'etapa_evaluation'));
+		return view('evaluations/activity/profiles/lista', compact('filter', 'grid', 'activity'));
 	}
 
 	public function CrudProfilesActivity($id_activity){
 
         $edit = DataEdit::source(new ActivityProfiles());
         $edit->link('activity-profiles/'.$id_activity,"Lista Actividades", "TR")->back();
-        $edit->add('name','Nombre','text')->rule('required');
+        $edit->add('id_profile','Perfil','select')->options(Profiles::lists('name', 'id'));
         $edit->add('id_activity', 'id_activity', 'hidden')->insertValue($id_activity);
 
         return $edit->view('evaluations/activity/profiles/crud', compact('edit', 'id_evaluation'));

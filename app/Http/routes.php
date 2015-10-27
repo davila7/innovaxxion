@@ -94,3 +94,5 @@ Route::group(['prefix' => 'activity-profiles/{id_activity}'], function(){
 
 });
 
+
+Route::get('toproyect', 'EvaluationsController@ToProyect');
