@@ -13,16 +13,16 @@ class CreateEtapasProyectTable extends Migration {
 	public function up()
 	{
 		//
-		Schema::create('etapas_proyect', function(Blueprint $table)
+		Schema::create('etapas_project', function(Blueprint $table)
 		{
 			$table->engine = 'MyISAM';
 			$table->increments('id');
-			$table->integer('id_proyect');
+			$table->integer('id_project');
 			$table->string('etapa');
 			$table->datetime('start_date');
 			$table->datetime('end_date');
 
-			$table->foreign('id_proyect')->references('id')->on('proyect')
+			$table->foreign('id_project')->references('id')->on('project')
                 ->onUpdate('cascade')->onDelete('cascade');
 		});
 	}

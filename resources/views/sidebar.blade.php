@@ -34,7 +34,7 @@
                 </ul>
             </li>
             <li class="@yield('active_proyect')"><a href="{!! url('evaluations') !!}"><span>Evaluaciones</span></a></li>
-            <li class="@yield('active_evaluations')"><a href="{!! url('home') !!}"><span>Proyectos</span></a></li>
+            <li class="@yield('active_projects')"><a href="{!! url('projects') !!}"><span>Proyectos</span></a></li>
         </ul><!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->

@@ -15,7 +15,7 @@ use App\Models\ActivityProject;
 use App\Models\ActivityProfilesProject;
 use App\Models\ActivityProfiles;
 
-class EvaluationsController extends Controller {
+class ProjectsController extends Controller {
 
 	/*
 	|--------------------------------------------------------------------------
@@ -43,11 +43,11 @@ class EvaluationsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function ListaEvaluations()
+	public function ListaProjects()
 	{	
-		$filter = DataFilter::source(new Evaluations);
+		$filter = DataFilter::source(new Project);
 		/*Header*/
-        $filter->link('evaluations/create', 'Crear Nuevo', 'TR');
+        $filter->link('projects/create', 'Crear Nuevo', 'TR');
         /*Header*/
 
 		$filter->attributes(array('class'=>'form-inline'));
@@ -62,7 +62,7 @@ class EvaluationsController extends Controller {
         $grid->paginate(10);
         $grid->build();
 
-		return view('evaluations/lista', compact('filter', 'grid'));
+		return view('projects/lista', compact('filter', 'grid'));
 	}
 
 
@@ -71,22 +71,24 @@ class EvaluationsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function CrudEvaluations(){
+	public function CrudProjects(){
 
-        $edit = DataEdit::source(new Evaluations());
-        $edit->link("/evaluations/","Lista Evaluaciones", "TR")->back();
+        $edit = DataEdit::source(new Project());
+        $edit->link("/projects/","Lista Proyectos", "TR")->back();
         $edit->add('name','Nombre', 'text')->rule('required');
+        $edit->add('start_date', 'Fecha Comienzo', 'date')->format('d/m/Y', 'es');
+        $edit->add('end_date', 'Fecha Fin', 'date')->format('d/m/Y', 'es');
 
-        return $edit->view('evaluations/crud', compact('edit'));
+        return $edit->view('projects/crud', compact('edit'));
     }
 
 
-    public function ListaEtapasEvaluations($id_evaluation)
+    public function ListaEtapasProjects($id_project)
 	{	
-		$evaluation = Evaluations::find($id_evaluation);
-		$filter = DataFilter::source(EtapasEvaluations::where('id_evaluation', $id_evaluation));
+		$project = Project::find($id_project);
+		$filter = DataFilter::source(EtapasProject::where('id_project', $id_project));
 		/*Header*/
-        $filter->link('etapas-evaluations/'.$id_evaluation.'/create/', 'Crear Nueva', 'TR');
+        $filter->link('etapas-projects/'.$id_project.'/create/', 'Crear Nueva', 'TR');
         /*Header*/
 
 		$filter->attributes(array('class'=>'form-inline'));
@@ -101,28 +103,28 @@ class EvaluationsController extends Controller {
         $grid->paginate(10);
         $grid->build();
 
-		return view('evaluations/etapas/lista', compact('filter', 'grid', 'id_evaluation', 'evaluation'));
+		return view('projects/etapas/lista', compact('filter', 'grid', 'id_project', 'project'));
 	}
 
 
-	public function CrudEtapasEvaluations($id_evaluation){
+	public function CrudEtapasProjects($id_project){
 
-        $edit = DataEdit::source(new EtapasEvaluations());
-        $edit->link('etapas-evaluations/'.$id_evaluation,"Lista Etapas", "TR")->back();
-        $edit->add('id_evaluation', 'id_evaluation', 'hidden')->insertValue($id_evaluation);
+        $edit = DataEdit::source(new EtapasProject());
+        $edit->link('etapas-projects/'.$id_project,"Lista Etapas", "TR")->back();
+        $edit->add('id_project', 'id_project', 'hidden')->insertValue($id_project);
         $edit->add('etapa','Etapas','select')->options(Etapas::lists('name', 'name'));
 
-        return $edit->view('evaluations/etapas/crud', compact('edit', 'id_evaluation'));
+        return $edit->view('projects/etapas/crud', compact('edit', 'id_project'));
     }
 
 
-    public function ListaActivityEtapas($id_evaluation, $id_etapa_evaluation)
+    public function ListaActivityEtapasProject($id_project, $id_etapa_project)
 	{	
-		$evaluation = Evaluations::find($id_evaluation);
-		$etapa_evaluation = EtapasEvaluations::find($id_etapa_evaluation);
-		$filter = DataFilter::source(Activity::where('id_etapa_evaluation', $id_etapa_evaluation));
+		$project = Project::find($id_project);
+		$etapa_project = EtapasProject::find($id_etapa_project);
+		$filter = DataFilter::source(ActivityProject::where('id_etapa_project', $id_etapa_project));
 		/*Header*/
-        $filter->link('activity-etapas/'.$id_evaluation.'/'.$id_etapa_evaluation.'/create', 'Crear Nueva', 'TR');
+        $filter->link('activity-etapas-projects/'.$id_project.'/'.$id_etapa_project.'/create', 'Crear Nueva', 'TR');
         /*Header*/
 
 		$filter->attributes(array('class'=>'form-inline'));
@@ -137,17 +139,17 @@ class EvaluationsController extends Controller {
         $grid->paginate(10);
         $grid->build();
 
-		return view('evaluations/activity/lista', compact('filter', 'grid', 'id_evaluation', 'evaluation', 'etapa_evaluation'));
+		return view('projects/activity/lista', compact('filter', 'grid', 'id_project', 'project', 'etapa_project'));
 	}
 
-	public function CrudActivityEtapas($id_evaluation, $id_etapa_evaluation){
+	public function CrudActivityEtapasProject($id_project, $id_etapa_project){
 
-        $edit = DataEdit::source(new Activity());
-        $edit->link('activity-etapas/'.$id_evaluation.'/'.$id_etapa_evaluation,"Lista Actividades", "TR")->back();
+        $edit = DataEdit::source(new ActivityProject());
+        $edit->link('activity-etapas-projects/'.$id_project.'/'.$id_etapa_project,"Lista Actividades", "TR")->back();
         $edit->add('name','Nombre','text')->rule('required');
-        $edit->add('id_etapa_evaluation', 'id_etapa_evaluation', 'hidden')->insertValue($id_etapa_evaluation);
+        $edit->add('id_etapa_project', 'id_etapa_project', 'hidden')->insertValue($id_etapa_project);
 
-        return $edit->view('evaluations/etapas/crud', compact('edit', 'id_evaluation'));
+        return $edit->view('projects/activity/crud', compact('edit', 'id_project', 'id_etapa_project'));
     }
 
     public function ListaProfilesActivity($id_activity)
@@ -188,7 +190,7 @@ class EvaluationsController extends Controller {
     	$evaluation = Evaluations::find($id);
 
     	$project = new Project;
-		$project->name = $evaluation->name.'project_clon_'.$evaluation->id;
+		$project->name = $evaluation->name;
 		$project->id_evaluation = $evaluation->id;
 		$project->save();
 
@@ -216,7 +218,7 @@ class EvaluationsController extends Controller {
 			}
 		}
 
-		return redirect('projects');
+
     }
 
 }

@@ -58,12 +58,30 @@ Route::group(['prefix' => 'evaluations'], function(){
 
 });
 
+//evaluaciones
+Route::group(['prefix' => 'projects'], function(){
+
+	Route::get('/', 'ProjectsController@ListaProjects');
+	Route::any('/create', 'ProjectsController@CrudProjects');
+	Route::any('/edit', 'ProjectsController@CrudProjects');
+
+});
+
 //etapas
 Route::group(['prefix' => 'etapas'], function(){
 
 	Route::get('/', 'EtapasController@ListaEtapas');
 	Route::any('/create', 'EtapasController@CrudEtapas');
 	Route::any('/edit', 'EtapasController@CrudEtapas');
+
+});
+
+//etapas-proyectos
+Route::group(['prefix' => 'etapas-projects/{id}'], function(){
+
+	Route::get('/', 'ProjectsController@ListaEtapasProjects');
+	Route::any('/create', 'ProjectsController@CrudEtapasProjects');
+	Route::any('/edit', 'ProjectsController@CrudEtapasProjects');
 
 });
 
@@ -85,6 +103,15 @@ Route::group(['prefix' => 'activity-etapas/{id_evaluation}/{id_etapa_evaluation}
 
 });
 
+//activity-etapas-projects
+Route::group(['prefix' => 'activity-etapas-projects/{id_project}/{id_etapa_project}'], function(){
+
+	Route::get('/', 'ProjectsController@ListaActivityEtapasProject');
+	Route::any('/create', 'ProjectsController@CrudActivityEtapasProject');
+	Route::any('/edit', 'ProjectsController@CrudActivityEtapasProject');
+
+});
+
 //activity-profiles
 Route::group(['prefix' => 'activity-profiles/{id_activity}'], function(){
 
@@ -95,4 +122,4 @@ Route::group(['prefix' => 'activity-profiles/{id_activity}'], function(){
 });
 
 
-Route::get('toproyect', 'EvaluationsController@ToProyect');
+Route::get('toproyect/{id_proyect}', 'EvaluationsController@ToProyect');

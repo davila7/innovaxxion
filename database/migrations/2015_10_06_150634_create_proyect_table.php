@@ -13,7 +13,7 @@ class CreateProyectTable extends Migration {
 	public function up()
 	{
 		//
-		Schema::create('proyect', function(Blueprint $table)
+		Schema::create('project', function(Blueprint $table)
 		{
 			$table->engine = 'MyISAM';
 			$table->string('id_evaluation');
