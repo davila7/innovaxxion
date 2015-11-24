@@ -5,6 +5,7 @@ use Zofe\Rapyd\Facades\DataGrid;
 use Zofe\Rapyd\Facades\DataEdit;
 use App\Models\Profiles;
 use App\Models\Categories;
+use DB;
 
 class ProfilesController extends Controller {
 
@@ -77,6 +78,16 @@ class ProfilesController extends Controller {
         $edit->add('hours_cost_uf','Costo Hr Uf', 'text')->rule('required');
 
         return $edit->view('perfiles/crud', compact('edit'));
+    }
+
+    public function getProfiles($id_activity_project){
+    	$profiles_ids = DB::table('activity_profiles_project')
+    						->where('id_activity_project', $id_activity_project)
+    						->lists('id_profile');
+
+    	$profiles = Profiles::whereIn('id', $profiles_ids)->get();
+
+    	return response()->json($profiles);
     }
 
 }

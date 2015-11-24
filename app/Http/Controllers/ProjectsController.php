@@ -14,6 +14,7 @@ use App\Models\EtapasProject;
 use App\Models\ActivityProject;
 use App\Models\ActivityProfilesProject;
 use App\Models\ActivityProfiles;
+use Illuminate\Http\Request;
 
 class ProjectsController extends Controller {
 
@@ -112,7 +113,7 @@ class ProjectsController extends Controller {
         $edit = DataEdit::source(new EtapasProject());
         $edit->link('etapas-projects/'.$id_project,"Lista Etapas", "TR")->back();
         $edit->add('id_project', 'id_project', 'hidden')->insertValue($id_project);
-        $edit->add('etapa','Etapas','select')->options(Etapas::lists('name', 'name'));
+        $edit->add('etapa','Etapas','text')->rule('required');
 
         return $edit->view('projects/etapas/crud', compact('edit', 'id_project'));
     }
@@ -139,7 +140,7 @@ class ProjectsController extends Controller {
         $grid->paginate(10);
         $grid->build();
 
-		return view('projects/activity/lista', compact('filter', 'grid', 'id_project', 'project', 'etapa_project'));
+		return view('projects/activity/lista', compact('filter', 'grid', 'id_project', 'id_etapa_project', 'project', 'etapa_project'));
 	}
 
 	public function CrudActivityEtapasProject($id_project, $id_etapa_project){
@@ -147,9 +148,43 @@ class ProjectsController extends Controller {
         $edit = DataEdit::source(new ActivityProject());
         $edit->link('activity-etapas-projects/'.$id_project.'/'.$id_etapa_project,"Lista Actividades", "TR")->back();
         $edit->add('name','Nombre','text')->rule('required');
+        $edit->add('date_start', 'Fecha Comienzo', 'date')->format('d/m/Y', 'es');
+        $edit->add('date_end', 'Fecha Fin', 'date')->format('d/m/Y', 'es');
         $edit->add('id_etapa_project', 'id_etapa_project', 'hidden')->insertValue($id_etapa_project);
 
         return $edit->view('projects/activity/crud', compact('edit', 'id_project', 'id_etapa_project'));
+    }
+
+    public function ListaProfilesActivityProject($id_activity_project)
+	{	
+		$activity = ActivityProject::find($id_activity_project);
+		$filter = DataFilter::source(ActivityProfilesProject::with('profile')->where('id_activity_project', $id_activity_project));
+		/*Header*/
+        $filter->link('activity-profiles-project/'.$id_activity_project.'/create', 'Crear Nuevo', 'TR');
+        /*Header*/
+
+		$filter->attributes(array('class'=>'form-inline'));
+		$filter->add('name','Buscar por Nombre', 'text');
+		$filter->submit('Buscar');
+		$filter->reset('Limpiar');
+
+		$grid = DataGrid::source($filter);
+        $grid->attributes(array("class"=>"table table-striped"));
+        $grid->add('{{ $profile->name }}','Profile', 'id_profile');
+        $grid->edit(url().'/activity-profiles-project/'.$id_activity_project.'/edit', 'Editar/Borrar','modify|delete');        
+        $grid->paginate(10);
+
+		return view('projects/activity/profiles/lista', compact('filter', 'grid', 'activity'));
+	}
+
+	public function CrudProfilesActivityProject($id_activity_project){
+
+        $edit = DataEdit::source(new ActivityProfilesProject());
+        $edit->link('activity-profiles-project/'.$id_activity_project,"Lista Actividades", "TR")->back();
+        $edit->add('id_profile','Perfil','select')->options(Profiles::lists('name', 'id'));
+        $edit->add('id_activity_project', 'id_activity_project', 'hidden')->insertValue($id_activity_project);
+
+        return $edit->view('projects/activity/profiles/crud', compact('edit'));
     }
 
     public function ListaProfilesActivity($id_activity)
@@ -219,6 +254,23 @@ class ProjectsController extends Controller {
 		}
 
 
+    }
+
+    public function GetGantt($id){
+    	
+    	$project = Project::find($id);
+    	$etapa_project = EtapasProject::where('id_project', $project->id)->get();
+
+    	return view('projects/gantt', compact('project', 'etapa_project'));
+    }
+
+    public function UpdateActivityProject($start, $end, $id){
+    	$activity_project = ActivityProject::find($id);
+    	$activity_project->date_start = $start;
+    	$activity_project->date_end = $end;
+    	$activity_project->save();
+
+    	return response()->json($end);
     }
 
 }

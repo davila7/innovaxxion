@@ -19,7 +19,7 @@ class CreateProyectTable extends Migration {
 			$table->string('id_evaluation');
 			$table->increments('id');
 			$table->string('name');
-			$table->datetime('strat_date');
+			$table->datetime('start_date');
 			$table->datetime('end_date');
 			$table->timestamps();
 		});

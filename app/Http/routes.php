@@ -25,6 +25,7 @@ Route::controllers([
 //perfiles
 Route::group(['prefix' => 'perfiles'], function(){
 
+	Route::get('/getPerfil/{id}', 'ProfilesController@getProfiles');
 	Route::get('/', 'ProfilesController@ListaProfiles');
 	Route::any('/create', 'ProfilesController@CrudProfiles');
 	Route::any('/edit', 'ProfilesController@CrudProfiles');
@@ -112,6 +113,15 @@ Route::group(['prefix' => 'activity-etapas-projects/{id_project}/{id_etapa_proje
 
 });
 
+//activity-profiles-project
+Route::group(['prefix' => 'activity-profiles-project/{id_activity_project}'], function(){
+
+	Route::get('/', 'ProjectsController@ListaProfilesActivityProject');
+	Route::any('/create', 'ProjectsController@CrudProfilesActivityProject');
+	Route::any('/edit', 'ProjectsController@CrudProfilesActivityProject');
+
+});
+
 //activity-profiles
 Route::group(['prefix' => 'activity-profiles/{id_activity}'], function(){
 
@@ -123,3 +133,6 @@ Route::group(['prefix' => 'activity-profiles/{id_activity}'], function(){
 
 
 Route::get('toproyect/{id_proyect}', 'EvaluationsController@ToProyect');
+
+Route::get('gantt-projects/{id_proyect}', 'ProjectsController@GetGantt');
+Route::get('update-dates/{start}/{end}/{id}', 'ProjectsController@UpdateActivityProject');

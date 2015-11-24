@@ -42,6 +42,9 @@ active
                         <th>
                  Etapas
             </th>
+               <th>
+                 Ver Gantt
+            </th>
                  <th>
                             Editar/Borrar
             </th>
@@ -53,6 +56,9 @@ active
                         <td>{!! $item->name !!}</td>
                         <td>
                         	<a class="" title="Etapas" href="{!! URL::to('/') !!}/etapas-projects/{!! $item->id !!}"><span class="glyphicon glyphicon-th-list"> </span></a>
+                        </td>
+                        <td>
+                            <a class="" title="Gantt" href="{!! URL::to('/') !!}/gantt-projects/{!! $item->id !!}"><span class="glyphicon glyphicon-tasks"> </span></a>
                         </td>
                         <td><a class="" title="Modify" href="{!! URL::to('/') !!}/projects/edit?modify={!! $item->id !!}"><span class="glyphicon glyphicon-edit"> </span></a>
     					<a class="text-danger" title="Delete" href="{!! URL::to('/') !!}/projects/edit?delete={!! $item->id !!}"><span class="glyphicon glyphicon-trash"> </span></a>

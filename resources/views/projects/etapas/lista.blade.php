@@ -50,8 +50,8 @@ active
                         <td>
                         	<a class="" title="Actividad" href="{!! URL::to('/') !!}/activity-etapas-projects/{!! $id_project !!}/{!! $item->id !!}"><span class="glyphicon glyphicon-list"> </span></a>
                         </td>
-                        <td><a class="" title="Modify" href="{!! URL::to('/') !!}/etapas-projects/{!! $id_project !!}?modify={!! $item->id !!}"><span class="glyphicon glyphicon-edit"> </span></a>
-    					<a class="text-danger" title="Delete" href="{!! URL::to('/') !!}/etapas-projects/{!! $id_project !!}?delete={!! $item->id !!}"><span class="glyphicon glyphicon-trash"> </span></a>
+                        <td><a class="" title="Modify" href="{!! URL::to('/') !!}/etapas-projects/{!! $id_project !!}/edit?modify={!! $item->id !!}"><span class="glyphicon glyphicon-edit"> </span></a>
+    					<a class="text-danger" title="Delete" href="{!! URL::to('/') !!}/etapas-projects/{!! $id_project !!}/edit?delete={!! $item->id !!}"><span class="glyphicon glyphicon-trash"> </span></a>
 						</td>
             </tr>
     @endforeach
