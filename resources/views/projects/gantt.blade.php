@@ -20,16 +20,20 @@ active
 @endsection
 
 @section('content')
+<a href="{!! url('download-excel') !!}/{!! $id !!}" class="btn btn-info pull-right">Descargar Excel</a>
+<br /><br />
 <div id="ganttChart"></div>
 <br/><br/>
 
 <div id="eventMessage"></div>
-<div class="panel panel-default hide" id="desc-panel">
+<div class="panel panel-primary hide" id="desc-panel">
   <div class="panel-heading">
     <h3 class="panel-title"></h3>
   </div>
   <div class="panel-body">
   	<p></p>
+  </div>
+  <div class="panel-footer total">
   </div>
 </div>
 <!--js-->
@@ -71,19 +75,22 @@ function getActivity(data){
 	    var name = data.name;
 		var fechas_start = data.start;
 		var fecha_end = data.end;
+		var total = 0;
 		$.get( "{!! URL::to('/') !!}/perfiles/getPerfil/"+data.id, function( data2 ) {
 			if(data2.length == 0 ){
 				ms = '</br>Sin perfiles asociados.';
 			}
 			for (i = 0; i < data2.length; i++) { 
 				num = i+1;
-			    ms = ms+'</br><strong>Perfil '+num+' : '+data2[0].name+'</strong> </br> Costo Mensual: '+data2[0].monthly_cost+' </br> UF por Hora: '+data2[0].hours_cost_uf ;
+			    ms = ms+'</br><strong>Perfil '+num+' : '+data2[i].name+'</strong> </br> Costo Mensual: '+data2[i].monthly_cost+' </br> UF por Hora: '+data2[i].hours_cost_uf ;
+			    total = total + parseInt(data2[i].monthly_cost);
 			}
 			
 			$("#desc-panel").find('.panel-title').text(name);
 			$('#desc-panel').find('.panel-body p').html('Fecha inicio: '+fechas_start.toString("d/M/yyyy")
 				+'</br> Fecha final: '+fecha_end.toString("d/M/yyyy")
 					+ms);
+			$(".total").html('<p>Total: '+total+'</p>');
 			$("#desc-panel").removeClass('hide');
 		});
 }

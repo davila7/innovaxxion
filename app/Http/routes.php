@@ -131,8 +131,24 @@ Route::group(['prefix' => 'activity-profiles/{id_activity}'], function(){
 
 });
 
+//users
+Route::group(['prefix' => 'users'], function(){
+
+	Route::get('/', 'UserController@ListUsers');
+	Route::get('/asignar/{id}', 'UserController@AsignarRolGet');
+	Route::any('/create', 'UserController@CrudUser');
+	Route::any('/edit', 'UserController@CrudUser');
+	Route::post('/asignar', 'UserController@AsignarRolPost');
+
+});
+
 
 Route::get('toproyect/{id_proyect}', 'EvaluationsController@ToProyect');
 
 Route::get('gantt-projects/{id_proyect}', 'ProjectsController@GetGantt');
+Route::get('download-excel/{id_proyect}', 'ProjectsController@DownloadExcel');
 Route::get('update-dates/{start}/{end}/{id}', 'ProjectsController@UpdateActivityProject');
+
+
+
+Route::get('create-role', 'UserController@CreateRoles');

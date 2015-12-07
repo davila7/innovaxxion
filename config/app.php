@@ -141,6 +141,7 @@ return [
 		 */
 		'Zofe\Rapyd\RapydServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
+		'Maatwebsite\Excel\ExcelServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -198,12 +199,15 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+		'Form' 		=> 'Illuminate\Html\FormFacade',
+		 'HTML'		=> 'Illuminate\Html\HtmlFacade',
 
 		/*
 		 * External modules
 		 */
 		
 		'Entrust' => 'Zizaco\Entrust\EntrustFacade',
+		'Excel' => 'Maatwebsite\Excel\Facades\Excel',
 
 	],
 

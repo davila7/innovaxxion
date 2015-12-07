@@ -9,7 +9,7 @@ class ActivityProject extends Model
 	public $timestamps = false;
 
 
-	/*public function perfil(){
-        return $this->hasOne('Profiles', 'categoria_id');
-    }*/
+	public function activity_profile(){
+        return $this->hasMany('App\Models\ActivityProfilesProject', 'id_activity_project');
+    }
 }

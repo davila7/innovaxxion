@@ -31,6 +31,7 @@
                  <li class="@yield('active_travels')"><a href="{!! url('travels') !!}"><i class="fa fa-circle-o"></i><span>Viajes</span></a></li>
                  <li class="@yield('active_overall_cost')"><a href="{!! url('overall_cost') !!}"><i class="fa fa-circle-o"></i><span>Gastos Generales</span></a></li>
                  <li class="@yield('active_etapas')"><a href="{!! url('etapas') !!}"><i class="fa fa-circle-o"></i><span>Etapas</span></a></li>
+                  <li class="@yield('active_users')"><a href="{!! url('users') !!}"><i class="fa fa-circle-o"></i><span>Usuarios</span></a></li>
                 </ul>
             </li>
             <li class="@yield('active_proyect')"><a href="{!! url('evaluations') !!}"><span>Evaluaciones</span></a></li>

@@ -261,7 +261,7 @@ class ProjectsController extends Controller {
     	$project = Project::find($id);
     	$etapa_project = EtapasProject::where('id_project', $project->id)->get();
 
-    	return view('projects/gantt', compact('project', 'etapa_project'));
+    	return view('projects/gantt', compact('project', 'etapa_project', 'id'));
     }
 
     public function UpdateActivityProject($start, $end, $id){
@@ -271,6 +271,43 @@ class ProjectsController extends Controller {
     	$activity_project->save();
 
     	return response()->json($end);
+    }
+
+    public function DownloadExcel($id){
+    	$project = Project::find($id);
+    	$etapa_project = EtapasProject::where('id_project', $project->id)->get();
+    	$data = array();
+    	$sum = 0;
+
+    	foreach ($etapa_project as $etapa) {
+    		foreach($etapa->activity_project as $activity){
+    			$profiles = Profiles::whereIn('id', $activity->activity_profile()->lists('id_profile'))
+    						->lists('name');
+    			$sum = Profiles::whereIn('id', $activity->activity_profile()->lists('id_profile'))
+    						->sum('monthly_cost');
+    			$data[] = array(
+    			'Etapa'=>$etapa->etapa,
+    			'Actividad'=>$activity->name,
+    			'Fecha Inicio'=>date("Y-m-d", strtotime($activity->date_start)),
+    			'Fecha Fin'=>date("Y-m-d", strtotime($activity->date_end)),
+    			'Perfiles'=>implode(",", $profiles),
+    			'Costos Mensual'=> $sum
+				);
+    		}
+    	}
+    	//print_r($data);
+
+    	\Excel::create('proyecto_'.$project->name, function($excel)  use($data){
+		  	
+		  	// Our first sheet
+		    $excel->sheet('hoja 1', function($sheet) use($data){
+		    	$sheet->fromModel($data);
+		    	$sheet->setOrientation('landscape');
+		    });
+
+
+		})->export('xls');
+
     }
 
 }
